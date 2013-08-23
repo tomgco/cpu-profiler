@@ -19,6 +19,10 @@ describe('profiles', function () {
     });
     node.scriptName.should.be.a('string');
     node.functionName.should.be.a('string');
+
+    if (Array.isArray(node.children)) {
+      node.children.forEach(validateNode);
+    }
   }
 
   it('should export profiling methods', function () {
@@ -66,6 +70,13 @@ describe('profiles', function () {
     ['bottomRoot','topRoot'].forEach(function (type) {
       var child = test[type].getChild(0);
       validateNode(child);
+    });
+  });
+
+  it('should getTopDownRoot and getBottomUpRoot correctly', function () {
+    ['getTopDownRoot','getBottomUpRoot'].forEach(function (call) {
+      var tree = test[call]();
+      validateNode(tree);
     });
   });
 
