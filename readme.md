@@ -20,3 +20,8 @@ is one available.
 
     profiler.startProfiling([name])                   // start cpu profiling
     var cpuProfile = profiler.stopProfiling([name])   // stop cpu profiling
+
+# Thanks
+
+[Danny Coates](https://github.com/dannycoates) for starting the project
+and maintaining it for several years.
