@@ -1,4 +1,4 @@
-# strong-profiler
+# strong-cpu-profiler
 
 Provides bindings for the v8 profiler in node.js
 
