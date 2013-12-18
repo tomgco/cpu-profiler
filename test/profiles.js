@@ -15,10 +15,10 @@ describe('profiles', function () {
       , 'lineNumber'
     ];
     numbers.forEach(function (num) {
-      node[num].should.be.a('number');
+      node[num].should.be.type('number');
     });
-    node.scriptName.should.be.a('string');
-    node.functionName.should.be.a('string');
+    node.scriptName.should.be.type('string');
+    node.functionName.should.be.type('string');
 
     if (Array.isArray(node.children)) {
       node.children.forEach(validateNode);
@@ -27,10 +27,10 @@ describe('profiles', function () {
 
   it('should export profiling methods', function () {
     should.exist(profiler.startProfiling);
-    profiler.startProfiling.should.be.a('function');
+    profiler.startProfiling.should.be.type('function');
 
     should.exist(profiler.startProfiling);
-    profiler.stopProfiling.should.be.a('function');
+    profiler.stopProfiling.should.be.type('function');
   });
 
   it('create a profile result', function (next) {
@@ -45,7 +45,7 @@ describe('profiles', function () {
 
   it('should contain delete method', function () {
     should.exist(test.delete);
-    test.delete.should.be.a('function');
+    test.delete.should.be.type('function');
   });
 
   it('should contain bottom and top roots', function () {
@@ -62,7 +62,7 @@ describe('profiles', function () {
   it('should have a getChild method for each root', function () {
     ['bottomRoot','topRoot'].forEach(function (type) {
       should.exist(test[type].getChild);
-      test[type].getChild.should.be.a('function');
+      test[type].getChild.should.be.type('function');
     });
   });
 
