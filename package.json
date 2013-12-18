@@ -8,15 +8,10 @@
   "engines": { "node": ">=0.8" },
   "devDependencies": {
     "should": "*",
-    "mocha": "*",
-    "blanket": "~1.1.5"
+    "mocha": "*"
   },
   "scripts": {
-    "blanket": {
-      "pattern": "//^((?!(node_modules|test)).)*$/"
-    },
     "install" : "(node-gyp rebuild 2> builderror.log) || (exit 0)",
-    "test": "mocha -r should -G -R spec",
-    "coverage": "mocha -r should -r blanket -G -R html-cov > coverage_strong-cpu-profiler"
+    "test": "mocha -r should -G -R spec"
   }
 }
