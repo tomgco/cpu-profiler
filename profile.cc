@@ -6,71 +6,64 @@ using namespace v8;
 namespace nodex {
   Persistent<ObjectTemplate> Profile::profile_template_;
 
-  void Profile::Initialize () {
-    profile_template_ = Persistent<ObjectTemplate>::New(ObjectTemplate::New());
-    profile_template_->SetInternalFieldCount(1);
-    profile_template_->SetAccessor(String::New("title"), Profile::GetTitle);
-    profile_template_->SetAccessor(String::New("uid"), Profile::GetUid);
-    profile_template_->SetAccessor(String::New("topRoot"), Profile::GetTopRoot);
-    profile_template_->SetAccessor(String::New("bottomRoot"), Profile::GetBottomRoot);
-    profile_template_->Set(String::New("delete"), FunctionTemplate::New(Profile::Delete));
+  void Profile::Initialize (Isolate* isolate) {
+    HandleScope scope(isolate);
+    Local<ObjectTemplate> o = ObjectTemplate::New();
+    o->SetInternalFieldCount(1);
+    o->SetAccessor(String::New("title"), Profile::GetTitle);
+    o->SetAccessor(String::New("uid"), Profile::GetUid);
+    o->SetAccessor(String::New("topRoot"), Profile::GetTopRoot);
+    o->Set(String::New("delete"), FunctionTemplate::New(Profile::Delete));
+    profile_template_.Reset(isolate, o);
   }
 
-  Handle<Value> Profile::GetUid (Local<String> property, const AccessorInfo& info) {
-    HandleScope scope;
+  void Profile::GetUid (Local<String> property, const PropertyCallbackInfo<Value>& info) {
+    HandleScope scope(info.GetIsolate());
     Local<Object> self = info.Holder();
-    void* ptr = self->GetPointerFromInternalField(0);
+    void* ptr = self->GetAlignedPointerFromInternalField(0);
     uint32_t uid = static_cast<CpuProfile*>(ptr)->GetUid();
-    return scope.Close(Integer::NewFromUnsigned(uid));
+    info.GetReturnValue().Set(Integer::NewFromUnsigned(uid));
   }
 
 
-  Handle<Value> Profile::GetTitle (Local<String> property, const AccessorInfo& info) {
-    HandleScope scope;
+  void Profile::GetTitle (Local<String> property, const PropertyCallbackInfo<Value>& info) {
+    HandleScope scope(info.GetIsolate());
     Local<Object> self = info.Holder();
-    void* ptr = self->GetPointerFromInternalField(0);
+    void* ptr = self->GetAlignedPointerFromInternalField(0);
     Handle<String> title = static_cast<CpuProfile*>(ptr)->GetTitle();
-    return scope.Close(title);
+    info.GetReturnValue().Set(title);
   }
 
-  Handle<Value> Profile::GetTopRoot (Local<String> property, const AccessorInfo& info) {
-    HandleScope scope;
+  void Profile::GetTopRoot (Local<String> property, const PropertyCallbackInfo<Value>& info) {
+    Isolate* isolate = info.GetIsolate();
+    HandleScope scope(isolate);
     Local<Object> self = info.Holder();
-    void* ptr = self->GetPointerFromInternalField(0);
+    void* ptr = self->GetAlignedPointerFromInternalField(0);
     const CpuProfileNode* node = static_cast<CpuProfile*>(ptr)->GetTopDownRoot();
-    return scope.Close(ProfileNode::New(node));
+    info.GetReturnValue().Set(ProfileNode::New(isolate, node));
   }
 
 
-  Handle<Value> Profile::GetBottomRoot (Local<String> property, const AccessorInfo& info) {
-    HandleScope scope;
-    Local<Object> self = info.Holder();
-    void* ptr = self->GetPointerFromInternalField(0);
-    const CpuProfileNode* node = static_cast<CpuProfile*>(ptr)->GetBottomUpRoot();
-    return scope.Close(ProfileNode::New(node));
-  }
-
-  Handle<Value> Profile::Delete (const Arguments& args) {
-  	HandleScope scope;
+  void Profile::Delete (const FunctionCallbackInfo<Value>& args) {
+    HandleScope scope(args.GetIsolate());
     Handle<Object> self = args.This();
-  	void* ptr = self->GetPointerFromInternalField(0);
+    void* ptr = self->GetAlignedPointerFromInternalField(0);
     static_cast<CpuProfile*>(ptr)->Delete();
-  	return Undefined();
+    args.GetReturnValue().SetUndefined();
   }
 
-  Handle<Value> Profile::New (const CpuProfile* profile) {
-    HandleScope scope;
-    
+  Handle<Value> Profile::New (Isolate* isolate, const CpuProfile* profile) {
     if (profile_template_.IsEmpty()) {
-      Profile::Initialize();
+      Profile::Initialize(isolate);
     }
     
     if ( ! profile) {
       return Undefined();
     } else {
-      Local<Object> obj = profile_template_->NewInstance();
-      obj->SetPointerInInternalField(0, const_cast<CpuProfile*>(profile));
-      return scope.Close(obj);
+      Local<ObjectTemplate> tpl = Local<ObjectTemplate>::New(isolate, profile_template_);
+      Local<Object> obj = tpl->NewInstance();
+      obj->SetAlignedPointerInInternalField(0, const_cast<CpuProfile*>(profile));
+      return obj;
     }
   }
 }

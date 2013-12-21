@@ -5,62 +5,58 @@ namespace nodex {
   CpuProfiler::CpuProfiler () {}
   CpuProfiler::~CpuProfiler () {}
 
-  void CpuProfiler::Initialize (Handle<Object> target) {
-    HandleScope scope;
-
+  void CpuProfiler::Initialize (Isolate* isolate, Handle<Object> target) {
+    HandleScope scope(isolate);
     NODE_SET_METHOD(target, "getProfilesCount", CpuProfiler::GetProfilesCount);
     NODE_SET_METHOD(target, "getProfile", CpuProfiler::GetProfile);
-    NODE_SET_METHOD(target, "findProfile", CpuProfiler::FindProfile);
     NODE_SET_METHOD(target, "startProfiling", CpuProfiler::StartProfiling);
     NODE_SET_METHOD(target, "stopProfiling", CpuProfiler::StopProfiling);
     NODE_SET_METHOD(target, "deleteAllProfiles", CpuProfiler::DeleteAllProfiles);
   }
 
-  Handle<Value> CpuProfiler::GetProfilesCount (const Arguments& args) {
-    HandleScope scope;
-    return scope.Close(Integer::New(v8::CpuProfiler::GetProfilesCount()));
+  void CpuProfiler::GetProfilesCount (const FunctionCallbackInfo<Value>& args) {
+    Isolate* isolate = args.GetIsolate();
+    HandleScope scope(isolate);
+    args.GetReturnValue().Set(isolate->GetCpuProfiler()->GetProfileCount());
   }
 
-  Handle<Value> CpuProfiler::GetProfile (const Arguments& args) {
-    HandleScope scope;
+  void CpuProfiler::GetProfile (const FunctionCallbackInfo<Value>& args) {
+    Isolate* isolate = args.GetIsolate();
+    HandleScope scope(isolate);
     if (args.Length() < 1) {
-      return ThrowException(Exception::Error(String::New("No index specified")));
+      ThrowException(Exception::Error(String::New("No index specified")));
+      return;
     } else if ( ! args[0]->IsInt32()) {
-      return ThrowException(Exception::TypeError(String::New("Argument must be an integer")));
+      ThrowException(Exception::TypeError(String::New("Argument must be an integer")));
+      return;
     }
     int32_t index = args[0]->Int32Value();
-    const CpuProfile* profile = v8::CpuProfiler::GetProfile(index);
-    return scope.Close(Profile::New(profile));
+    const CpuProfile* profile = isolate->GetCpuProfiler()->GetCpuProfile(index);
+    args.GetReturnValue().Set(Profile::New(isolate, profile));
   }
 
-  Handle<Value> CpuProfiler::FindProfile (const Arguments& args) {
-    HandleScope scope;
-    if (args.Length() < 1) {
-      return ThrowException(Exception::Error(String::New("No index specified")));
-    } else if ( ! args[0]->IsInt32()) {
-      return ThrowException(Exception::TypeError(String::New("Argument must be an integer")));
-    }
-    uint32_t uid = args[0]->Uint32Value();
-    const CpuProfile* profile = v8::CpuProfiler::FindProfile(uid);
-    return scope.Close(Profile::New(profile));
+  void CpuProfiler::StartProfiling (const FunctionCallbackInfo<Value>& args) {
+    Isolate* isolate = args.GetIsolate();
+    HandleScope scope(isolate);
+    Local<String> title =
+        args.Length() > 0 ? args[0]->ToString() : String::Empty(isolate);
+    isolate->GetCpuProfiler()->StartCpuProfiling(title);
+    args.GetReturnValue().SetUndefined();
   }
 
-  Handle<Value> CpuProfiler::StartProfiling (const Arguments& args) {
-    HandleScope scope;
-    Local<String> title = args.Length() > 0 ? args[0]->ToString() : String::New("");
-    v8::CpuProfiler::StartProfiling(title);
-    return Undefined();
+  void CpuProfiler::StopProfiling (const FunctionCallbackInfo<Value>& args) {
+    Isolate* isolate = args.GetIsolate();
+    HandleScope scope(isolate);
+    Local<String> title =
+        args.Length() > 0 ? args[0]->ToString() : String::Empty(isolate);
+    const CpuProfile* profile = isolate->GetCpuProfiler()->StopCpuProfiling(title);
+    args.GetReturnValue().Set(Profile::New(isolate, profile));
   }
 
-  Handle<Value> CpuProfiler::StopProfiling (const Arguments& args) {
-    HandleScope scope;
-    Local<String> title = args.Length() > 0 ? args[0]->ToString() : String::New("");
-    const CpuProfile* profile = v8::CpuProfiler::StopProfiling(title);
-    return scope.Close(Profile::New(profile));
-  }
-
-  Handle<Value> CpuProfiler::DeleteAllProfiles (const Arguments& args) {
-    v8::CpuProfiler::DeleteAllProfiles();
-    return Undefined();
+  void CpuProfiler::DeleteAllProfiles (const FunctionCallbackInfo<Value>& args) {
+    Isolate* isolate = args.GetIsolate();
+    HandleScope scope(isolate);
+    isolate->GetCpuProfiler()->DeleteAllCpuProfiles();
+    args.GetReturnValue().SetUndefined();
   }
 } //namespace nodex

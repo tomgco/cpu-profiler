@@ -8,10 +8,6 @@ describe('profiles', function () {
     var numbers = [
       'childrenCount'
       , 'callUid'
-      , 'selfSamplesCount'
-      , 'totalSamplesCount'
-      , 'selfTime'
-      , 'totalTime'
       , 'lineNumber'
     ];
     numbers.forEach(function (num) {
@@ -48,33 +44,32 @@ describe('profiles', function () {
     test.delete.should.be.type('function');
   });
 
-  it('should contain bottom and top roots', function () {
-    should.exist(test.bottomRoot);
+  it('should contain top root', function () {
     should.exist(test.topRoot);
   });
 
   it('should have correct root contents', function () {
-    ['bottomRoot','topRoot'].forEach(function (type) {
+    ['topRoot'].forEach(function (type) {
       validateNode(test[type]);
     });
   });
 
-  it('should have a getChild method for each root', function () {
-    ['bottomRoot','topRoot'].forEach(function (type) {
+  it('should have a getChild method for the top root', function () {
+    ['topRoot'].forEach(function (type) {
       should.exist(test[type].getChild);
       test[type].getChild.should.be.type('function');
     });
   });
 
   it('should getChild correctly', function () {
-    ['bottomRoot','topRoot'].forEach(function (type) {
+    ['topRoot'].forEach(function (type) {
       var child = test[type].getChild(0);
       validateNode(child);
     });
   });
 
-  it('should getTopDownRoot and getBottomUpRoot correctly', function () {
-    ['getTopDownRoot','getBottomUpRoot'].forEach(function (call) {
+  it('should getTopDownRoot correctly', function () {
+    ['getTopDownRoot'].forEach(function (call) {
       var tree = test[call]();
       validateNode(tree);
     });

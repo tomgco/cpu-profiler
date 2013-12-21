@@ -9,15 +9,14 @@ namespace nodex {
 
 class Profile {
  public:
-  static Handle<Value> New(const CpuProfile* profile);
+  static Handle<Value> New(Isolate* isolate, const CpuProfile* profile);
  
  private:
-  static Handle<Value> GetUid(Local<String> property, const AccessorInfo& info);
-  static Handle<Value> GetTitle(Local<String> property, const AccessorInfo& info);
-  static Handle<Value> GetTopRoot(Local<String> property, const AccessorInfo& info);
-  static Handle<Value> GetBottomRoot(Local<String> property, const AccessorInfo& info);
-  static Handle<Value> Delete(const Arguments& args);
-  static void Initialize();
+  static void GetUid(Local<String> property, const PropertyCallbackInfo<Value>& info);
+  static void GetTitle(Local<String> property, const PropertyCallbackInfo<Value>& info);
+  static void GetTopRoot(Local<String> property, const PropertyCallbackInfo<Value>& info);
+  static void Delete(const FunctionCallbackInfo<Value>& args);
+  static void Initialize(Isolate* isolate);
   static Persistent<ObjectTemplate> profile_template_;
 };
 

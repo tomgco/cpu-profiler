@@ -10,18 +10,17 @@ using namespace node;
 namespace nodex {
   class CpuProfiler {
     public:
-      static void Initialize(Handle<Object> target);
+      static void Initialize(Isolate* isolate, Handle<Object> target);
 
       CpuProfiler();
       virtual ~CpuProfiler();
 
     protected:
-      static Handle<Value> GetProfilesCount(const Arguments& args);
-      static Handle<Value> GetProfile(const Arguments& args);
-      static Handle<Value> FindProfile(const Arguments& args);
-      static Handle<Value> StartProfiling(const Arguments& args);
-      static Handle<Value> StopProfiling(const Arguments& args);
-      static Handle<Value> DeleteAllProfiles(const Arguments& args);
+      static void GetProfilesCount(const FunctionCallbackInfo<Value>& args);
+      static void GetProfile(const FunctionCallbackInfo<Value>& args);
+      static void StartProfiling(const FunctionCallbackInfo<Value>& args);
+      static void StopProfiling(const FunctionCallbackInfo<Value>& args);
+      static void DeleteAllProfiles(const FunctionCallbackInfo<Value>& args);
   };
 } //namespace nodex
 

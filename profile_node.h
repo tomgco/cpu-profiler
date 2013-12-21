@@ -11,20 +11,16 @@ namespace nodex {
 
 class ProfileNode {
  public:
-   static Handle<Value> New(const CpuProfileNode* node);
+   static Handle<Value> New(Isolate* isolate, const CpuProfileNode* node);
 
  private:
-   static Handle<Value> GetFunctionName(Local<String> property, const AccessorInfo& info);
-   static Handle<Value> GetScriptName(Local<String> property, const AccessorInfo& info);
-   static Handle<Value> GetLineNumber(Local<String> property, const AccessorInfo& info);
-   static Handle<Value> GetTotalTime(Local<String> property, const AccessorInfo& info);
-   static Handle<Value> GetSelfTime(Local<String> property, const AccessorInfo& info);
-   static Handle<Value> GetTotalSamplesCount(Local<String> property, const AccessorInfo& info);
-   static Handle<Value> GetSelfSamplesCount(Local<String> property, const AccessorInfo& info);
-   static Handle<Value> GetCallUid(Local<String> property, const AccessorInfo& info);
-   static Handle<Value> GetChildrenCount(Local<String> property, const AccessorInfo& info);
-   static Handle<Value> GetChild(const Arguments& args);
-   static void Initialize();
+   static void GetFunctionName(Local<String> property, const PropertyCallbackInfo<Value>& info);
+   static void GetScriptName(Local<String> property, const PropertyCallbackInfo<Value>& info);
+   static void GetLineNumber(Local<String> property, const PropertyCallbackInfo<Value>& info);
+   static void GetCallUid(Local<String> property, const PropertyCallbackInfo<Value>& info);
+   static void GetChildrenCount(Local<String> property, const PropertyCallbackInfo<Value>& info);
+   static void GetChild(const FunctionCallbackInfo<Value>& args);
+   static void Initialize(Isolate* isolate);
    static Persistent<ObjectTemplate> node_template_;
 };
 
