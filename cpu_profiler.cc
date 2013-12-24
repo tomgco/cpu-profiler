@@ -1,7 +1,20 @@
 #include "cpu_profiler.h"
 #include "profile.h"
+#include "node.h"
 
 namespace nodex {
+  using v8::CpuProfile;
+  using v8::Exception;
+  using v8::FunctionCallbackInfo;
+  using v8::Handle;
+  using v8::HandleScope;
+  using v8::Isolate;
+  using v8::Local;
+  using v8::Object;
+  using v8::String;
+  using v8::ThrowException;
+  using v8::Value;
+
   CpuProfiler::CpuProfiler () {}
   CpuProfiler::~CpuProfiler () {}
 

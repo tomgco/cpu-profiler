@@ -1,9 +1,26 @@
 #include "profile.h"
 #include "profile_node.h"
 
-using namespace v8;
-
 namespace nodex {
+  using v8::CpuProfile;
+  using v8::CpuProfileNode;
+  using v8::Exception;
+  using v8::FunctionCallbackInfo;
+  using v8::FunctionTemplate;
+  using v8::Handle;
+  using v8::HandleScope;
+  using v8::Integer;
+  using v8::Isolate;
+  using v8::Local;
+  using v8::Object;
+  using v8::ObjectTemplate;
+  using v8::Persistent;
+  using v8::PropertyCallbackInfo;
+  using v8::String;
+  using v8::ThrowException;
+  using v8::Undefined;
+  using v8::Value;
+
   Persistent<ObjectTemplate> Profile::profile_template_;
 
   void Profile::Initialize (Isolate* isolate) {

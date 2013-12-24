@@ -1,27 +1,23 @@
-
-
 #ifndef NODE_PROFILE_NODE_
 #define NODE_PROFILE_NODE_
 
-#include <v8-profiler.h>
-
-using namespace v8;
+#include "v8-profiler.h"
 
 namespace nodex {
 
 class ProfileNode {
  public:
-   static Handle<Value> New(Isolate* isolate, const CpuProfileNode* node);
+   static v8::Handle<v8::Value> New(v8::Isolate* isolate, const v8::CpuProfileNode* node);
 
  private:
-   static void GetFunctionName(Local<String> property, const PropertyCallbackInfo<Value>& info);
-   static void GetScriptName(Local<String> property, const PropertyCallbackInfo<Value>& info);
-   static void GetLineNumber(Local<String> property, const PropertyCallbackInfo<Value>& info);
-   static void GetCallUid(Local<String> property, const PropertyCallbackInfo<Value>& info);
-   static void GetChildrenCount(Local<String> property, const PropertyCallbackInfo<Value>& info);
-   static void GetChild(const FunctionCallbackInfo<Value>& args);
-   static void Initialize(Isolate* isolate);
-   static Persistent<ObjectTemplate> node_template_;
+   static void GetFunctionName(v8::Local<v8::String> property, const v8::PropertyCallbackInfo<v8::Value>& info);
+   static void GetScriptName(v8::Local<v8::String> property, const v8::PropertyCallbackInfo<v8::Value>& info);
+   static void GetLineNumber(v8::Local<v8::String> property, const v8::PropertyCallbackInfo<v8::Value>& info);
+   static void GetCallUid(v8::Local<v8::String> property, const v8::PropertyCallbackInfo<v8::Value>& info);
+   static void GetChildrenCount(v8::Local<v8::String> property, const v8::PropertyCallbackInfo<v8::Value>& info);
+   static void GetChild(const v8::FunctionCallbackInfo<v8::Value>& args);
+   static void Initialize(v8::Isolate* isolate);
+   static v8::Persistent<v8::ObjectTemplate> node_template_;
 };
 
 }
