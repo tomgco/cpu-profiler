@@ -15,6 +15,7 @@ describe('profiles', function () {
     });
     node.scriptName.should.be.type('string');
     node.functionName.should.be.type('string');
+    node.bailoutReason.should.be.type('string')
 
     if (Array.isArray(node.children)) {
       node.children.forEach(validateNode);

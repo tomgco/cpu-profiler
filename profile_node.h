@@ -12,6 +12,7 @@ class ProfileNode {
  private:
    static void GetFunctionName(v8::Local<v8::String> property, const v8::PropertyCallbackInfo<v8::Value>& info);
    static void GetScriptName(v8::Local<v8::String> property, const v8::PropertyCallbackInfo<v8::Value>& info);
+   static void GetBailoutReason(v8::Local<v8::String> property, const v8::PropertyCallbackInfo<v8::Value>& info);
    static void GetLineNumber(v8::Local<v8::String> property, const v8::PropertyCallbackInfo<v8::Value>& info);
    static void GetCallUid(v8::Local<v8::String> property, const v8::PropertyCallbackInfo<v8::Value>& info);
    static void GetChildrenCount(v8::Local<v8::String> property, const v8::PropertyCallbackInfo<v8::Value>& info);

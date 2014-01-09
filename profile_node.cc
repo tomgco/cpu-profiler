@@ -25,6 +25,7 @@ namespace nodex {
     o->SetInternalFieldCount(1);
     o->SetAccessor(String::New("functionName"), ProfileNode::GetFunctionName);
     o->SetAccessor(String::New("scriptName"), ProfileNode::GetScriptName);
+    o->SetAccessor(String::New("bailoutReason"), ProfileNode::GetBailoutReason);
     o->SetAccessor(String::New("lineNumber"), ProfileNode::GetLineNumber);
     o->SetAccessor(String::New("callUid"), ProfileNode::GetCallUid);
     o->SetAccessor(String::New("childrenCount"), ProfileNode::GetChildrenCount);
@@ -46,6 +47,15 @@ namespace nodex {
     void* ptr = self->GetAlignedPointerFromInternalField(0);
     Handle<String> sname = static_cast<CpuProfileNode*>(ptr)->GetScriptResourceName();
     info.GetReturnValue().Set(sname);
+  }
+
+  void ProfileNode::GetBailoutReason (Local<String> property, const PropertyCallbackInfo<Value>& info) {
+    HandleScope scope(info.GetIsolate());
+    Local<Object> self = info.Holder();
+    void* ptr = self->GetAlignedPointerFromInternalField(0);
+    const char* breason_ptr = static_cast<CpuProfileNode*>(ptr)->GetBailoutReason();
+    Handle<String> breason = v8::String::New(breason_ptr);
+    info.GetReturnValue().Set(breason);
   }
 
   void ProfileNode::GetLineNumber (Local<String> property, const PropertyCallbackInfo<Value>& info) {
