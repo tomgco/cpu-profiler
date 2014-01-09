@@ -28,6 +28,7 @@ namespace nodex {
     o->SetAccessor(String::New("lineNumber"), ProfileNode::GetLineNumber);
     o->SetAccessor(String::New("callUid"), ProfileNode::GetCallUid);
     o->SetAccessor(String::New("childrenCount"), ProfileNode::GetChildrenCount);
+    o->SetAccessor(String::New("hitCount"), ProfileNode::GetHitCount);
     o->Set(String::New("getChild"), FunctionTemplate::New(ProfileNode::GetChild));
     node_template_.Reset(isolate, o);
   }
@@ -70,6 +71,14 @@ namespace nodex {
     void* ptr = self->GetAlignedPointerFromInternalField(0);
     int32_t count = static_cast<CpuProfileNode*>(ptr)->GetChildrenCount();
     info.GetReturnValue().Set(count);
+  }
+
+  void ProfileNode::GetHitCount (Local<String> property, const PropertyCallbackInfo<Value>& info) {
+    HandleScope scope(info.GetIsolate());
+    Local<Object> self = info.Holder();
+    void* ptr = self->GetAlignedPointerFromInternalField(0);
+    uint32_t hcount = static_cast<CpuProfileNode*>(ptr)->GetHitCount();
+    info.GetReturnValue().Set(hcount);
   }
 
   void ProfileNode::GetChild (const FunctionCallbackInfo<Value>& args) {

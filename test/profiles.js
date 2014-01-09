@@ -9,6 +9,7 @@ describe('profiles', function () {
       'childrenCount'
       , 'callUid'
       , 'lineNumber'
+      , 'hitCount'
     ];
     numbers.forEach(function (num) {
       node[num].should.be.type('number');
