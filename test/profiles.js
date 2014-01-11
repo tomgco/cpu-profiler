@@ -36,6 +36,7 @@ describe('profiles', function () {
     setTimeout(function () {
       test = profiler.stopProfiling('test');
       test.title.should.equal('test');
+      test.samplesCount.should.be.type('number');
       test.uid.should.be.above(0);
       next();
     }, 100);
@@ -77,4 +78,15 @@ describe('profiles', function () {
     });
   });
 
+  it('create a profile result with samples', function (next) {
+    profiler.startProfiling('test', true);
+    setTimeout(function () {
+      test = profiler.stopProfiling('test');
+      test.title.should.equal('test');
+      test.samplesCount.should.be.type('number');
+      test.uid.should.be.above(0);
+      test.samplesCount.should.be.above(0);
+      next();
+    }, 100);
+  });
 });

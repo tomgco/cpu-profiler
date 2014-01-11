@@ -53,7 +53,9 @@ namespace nodex {
     HandleScope scope(isolate);
     Local<String> title =
         args.Length() > 0 ? args[0]->ToString() : String::Empty(isolate);
-    isolate->GetCpuProfiler()->StartCpuProfiling(title);
+    bool recsamples =
+        args.Length() > 1 ? args[1]->ToBoolean()->Value() : false;
+    isolate->GetCpuProfiler()->StartCpuProfiling(title, recsamples);
     args.GetReturnValue().SetUndefined();
   }
 

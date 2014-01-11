@@ -13,6 +13,7 @@ class Profile {
   static void GetUid(v8::Local<v8::String> property, const v8::PropertyCallbackInfo<v8::Value>& info);
   static void GetTitle(v8::Local<v8::String> property, const v8::PropertyCallbackInfo<v8::Value>& info);
   static void GetTopRoot(v8::Local<v8::String> property, const v8::PropertyCallbackInfo<v8::Value>& info);
+  static void GetSamplesCount(v8::Local<v8::String> property, const v8::PropertyCallbackInfo<v8::Value>& info);
   static void Delete(const v8::FunctionCallbackInfo<v8::Value>& args);
   static void Initialize(v8::Isolate* isolate);
   static v8::Persistent<v8::ObjectTemplate> profile_template_;

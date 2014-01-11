@@ -30,6 +30,7 @@ namespace nodex {
     o->SetAccessor(String::New("title"), Profile::GetTitle);
     o->SetAccessor(String::New("uid"), Profile::GetUid);
     o->SetAccessor(String::New("topRoot"), Profile::GetTopRoot);
+    o->SetAccessor(String::New("samplesCount"), Profile::GetSamplesCount);
     o->Set(String::New("delete"), FunctionTemplate::New(Profile::Delete));
     profile_template_.Reset(isolate, o);
   }
@@ -58,6 +59,14 @@ namespace nodex {
     void* ptr = self->GetAlignedPointerFromInternalField(0);
     const CpuProfileNode* node = static_cast<CpuProfile*>(ptr)->GetTopDownRoot();
     info.GetReturnValue().Set(ProfileNode::New(isolate, node));
+  }
+
+  void Profile::GetSamplesCount (Local<String> property, const PropertyCallbackInfo<Value>& info) {
+    HandleScope scope(info.GetIsolate());
+    Local<Object> self = info.Holder();
+    void* ptr = self->GetAlignedPointerFromInternalField(0);
+    int scount = static_cast<CpuProfile*>(ptr)->GetSamplesCount();
+    info.GetReturnValue().Set(Integer::New(scount));
   }
 
 
