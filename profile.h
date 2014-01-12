@@ -12,6 +12,8 @@ class Profile {
  private:
   static void GetUid(v8::Local<v8::String> property, const v8::PropertyCallbackInfo<v8::Value>& info);
   static void GetTitle(v8::Local<v8::String> property, const v8::PropertyCallbackInfo<v8::Value>& info);
+  static void GetStartTime(v8::Local<v8::String> property, const v8::PropertyCallbackInfo<v8::Value>& info);
+  static void GetEndTime(v8::Local<v8::String> property, const v8::PropertyCallbackInfo<v8::Value>& info);
   static void GetTopRoot(v8::Local<v8::String> property, const v8::PropertyCallbackInfo<v8::Value>& info);
   static void GetSamplesCount(v8::Local<v8::String> property, const v8::PropertyCallbackInfo<v8::Value>& info);
   static void GetSample(const v8::FunctionCallbackInfo<v8::Value>& args);

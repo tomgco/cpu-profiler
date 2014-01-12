@@ -30,6 +30,8 @@ namespace nodex {
     o->SetAccessor(String::New("title"), Profile::GetTitle);
     o->SetAccessor(String::New("uid"), Profile::GetUid);
     o->SetAccessor(String::New("topRoot"), Profile::GetTopRoot);
+    o->SetAccessor(String::New("startTime"), Profile::GetStartTime);
+    o->SetAccessor(String::New("endTime"), Profile::GetEndTime);
     o->SetAccessor(String::New("samplesCount"), Profile::GetSamplesCount);
     o->Set(String::New("delete"), FunctionTemplate::New(Profile::Delete));
     o->Set(String::New("getSample"), FunctionTemplate::New(Profile::GetSample));
@@ -60,6 +62,24 @@ namespace nodex {
     void* ptr = self->GetAlignedPointerFromInternalField(0);
     const CpuProfileNode* node = static_cast<CpuProfile*>(ptr)->GetTopDownRoot();
     info.GetReturnValue().Set(ProfileNode::New(isolate, node));
+  }
+
+  void Profile::GetStartTime (Local<String> property, const PropertyCallbackInfo<Value>& info) {
+    Isolate* isolate = info.GetIsolate();
+    HandleScope scope(isolate);
+    Local<Object> self = info.Holder();
+    void* ptr = self->GetAlignedPointerFromInternalField(0);
+    int64_t startTime = static_cast<CpuProfile*>(ptr)->GetStartTime();
+    info.GetReturnValue().Set(v8::Number::New(isolate, startTime));
+  }
+
+  void Profile::GetEndTime (Local<String> property, const PropertyCallbackInfo<Value>& info) {
+    Isolate* isolate = info.GetIsolate();
+    HandleScope scope(isolate);
+    Local<Object> self = info.Holder();
+    void* ptr = self->GetAlignedPointerFromInternalField(0);
+    int64_t endTime = static_cast<CpuProfile*>(ptr)->GetEndTime();
+    info.GetReturnValue().Set(v8::Number::New(isolate, endTime));
   }
 
   void Profile::GetSamplesCount (Local<String> property, const PropertyCallbackInfo<Value>& info) {

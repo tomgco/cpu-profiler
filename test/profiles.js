@@ -33,12 +33,15 @@ describe('profiles', function () {
   });
 
   it('create a profile result', function (next) {
+    var now = Date.now()
     profiler.startProfiling('test');
     setTimeout(function () {
       test = profiler.stopProfiling('test');
       test.title.should.equal('test');
       test.samplesCount.should.be.type('number');
       test.uid.should.be.above(0);
+      test.startTime.should.be.above(now);
+      test.endTime.should.be.above(now);
       next();
     }, 100);
   });
