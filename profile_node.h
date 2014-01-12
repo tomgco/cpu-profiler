@@ -18,6 +18,7 @@ class ProfileNode {
    static void GetNodeId(v8::Local<v8::String> property, const v8::PropertyCallbackInfo<v8::Value>& info);
    static void GetChildrenCount(v8::Local<v8::String> property, const v8::PropertyCallbackInfo<v8::Value>& info);
    static void GetHitCount(v8::Local<v8::String> property, const v8::PropertyCallbackInfo<v8::Value>& info);
+   static void GetScriptId(v8::Local<v8::String> property, const v8::PropertyCallbackInfo<v8::Value>& info);
    static void GetChild(const v8::FunctionCallbackInfo<v8::Value>& args);
    static void Initialize(v8::Isolate* isolate);
    static v8::Persistent<v8::ObjectTemplate> node_template_;

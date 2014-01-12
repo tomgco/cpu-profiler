@@ -12,6 +12,7 @@ namespace nodex {
   using v8::Integer;
   using v8::Isolate;
   using v8::Local;
+  using v8::Number;
   using v8::Object;
   using v8::ObjectTemplate;
   using v8::Persistent;
@@ -70,7 +71,7 @@ namespace nodex {
     Local<Object> self = info.Holder();
     void* ptr = self->GetAlignedPointerFromInternalField(0);
     int64_t startTime = static_cast<CpuProfile*>(ptr)->GetStartTime();
-    info.GetReturnValue().Set(v8::Number::New(isolate, startTime));
+    info.GetReturnValue().Set(Number::New(isolate, startTime));
   }
 
   void Profile::GetEndTime (Local<String> property, const PropertyCallbackInfo<Value>& info) {
@@ -79,7 +80,7 @@ namespace nodex {
     Local<Object> self = info.Holder();
     void* ptr = self->GetAlignedPointerFromInternalField(0);
     int64_t endTime = static_cast<CpuProfile*>(ptr)->GetEndTime();
-    info.GetReturnValue().Set(v8::Number::New(isolate, endTime));
+    info.GetReturnValue().Set(Number::New(isolate, endTime));
   }
 
   void Profile::GetSamplesCount (Local<String> property, const PropertyCallbackInfo<Value>& info) {

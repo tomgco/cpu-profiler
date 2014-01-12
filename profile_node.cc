@@ -7,6 +7,7 @@ namespace nodex {
   using v8::FunctionTemplate;
   using v8::Handle;
   using v8::HandleScope;
+  using v8::Integer;
   using v8::Isolate;
   using v8::Local;
   using v8::Object;
@@ -31,6 +32,7 @@ namespace nodex {
     o->SetAccessor(String::New("id"), ProfileNode::GetNodeId);
     o->SetAccessor(String::New("childrenCount"), ProfileNode::GetChildrenCount);
     o->SetAccessor(String::New("hitCount"), ProfileNode::GetHitCount);
+    o->SetAccessor(String::New("scriptId"), ProfileNode::GetScriptId);
     o->Set(String::New("getChild"), FunctionTemplate::New(ProfileNode::GetChild));
     node_template_.Reset(isolate, o);
   }
@@ -82,6 +84,14 @@ namespace nodex {
     void* ptr = self->GetAlignedPointerFromInternalField(0);
     uint32_t uid = static_cast<CpuProfileNode*>(ptr)->GetNodeId();
     info.GetReturnValue().Set(uid);
+  }
+
+  void ProfileNode::GetScriptId (Local<String> property, const PropertyCallbackInfo<Value>& info) {
+    HandleScope scope(info.GetIsolate());
+    Local<Object> self = info.Holder();
+    void* ptr = self->GetAlignedPointerFromInternalField(0);
+    int sid = static_cast<CpuProfileNode*>(ptr)->GetScriptId();
+    info.GetReturnValue().Set(Integer::New(sid));
   }
 
   void ProfileNode::GetChildrenCount (Local<String> property, const PropertyCallbackInfo<Value>& info) {
