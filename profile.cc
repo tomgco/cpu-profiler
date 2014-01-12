@@ -32,6 +32,7 @@ namespace nodex {
     o->SetAccessor(String::New("topRoot"), Profile::GetTopRoot);
     o->SetAccessor(String::New("samplesCount"), Profile::GetSamplesCount);
     o->Set(String::New("delete"), FunctionTemplate::New(Profile::Delete));
+    o->Set(String::New("getSample"), FunctionTemplate::New(Profile::GetSample));
     profile_template_.Reset(isolate, o);
   }
 
@@ -69,6 +70,33 @@ namespace nodex {
     info.GetReturnValue().Set(Integer::New(scount));
   }
 
+  void Profile::GetSample (const FunctionCallbackInfo<Value>& args) {
+    Isolate* isolate = args.GetIsolate();
+    HandleScope scope(isolate);
+    if (args.Length() < 1) {
+      ThrowException(Exception::Error(String::New("No index specified")));
+      return;
+    } else if (!args[0]->IsInt32()) {
+      ThrowException(Exception::Error(String::New("Argument must be integer")));
+      return;
+    }
+    int index = args[0]->Int32Value();
+    Handle<Object> self = args.This();
+    void* ptr = self->GetAlignedPointerFromInternalField(0);
+    int scount = static_cast<CpuProfile*>(ptr)->GetSamplesCount();
+    // Samples have not been collected
+    if (scount == 0) {
+      ThrowException(Exception::Error(String::New("No sampels have been collected")));
+      return;
+    }
+    // Check that the index is in range
+    if (!(index >= 0 && index <= scount - 1)) {
+      ThrowException(Exception::Error(String::New("Index is not in range of samplesCount")));
+      return;
+    }
+    const CpuProfileNode* node = static_cast<CpuProfile*>(ptr)->GetSample(index);
+    args.GetReturnValue().Set(ProfileNode::New(isolate, node));
+  }
 
   void Profile::Delete (const FunctionCallbackInfo<Value>& args) {
     HandleScope scope(args.GetIsolate());

@@ -10,6 +10,7 @@ describe('profiles', function () {
       , 'callUid'
       , 'lineNumber'
       , 'hitCount'
+      , 'id'
     ];
     numbers.forEach(function (num) {
       node[num].should.be.type('number');
@@ -41,6 +42,15 @@ describe('profiles', function () {
       next();
     }, 100);
   });
+
+  it('should not getSample correctly as recording sampling is off by default'
+    , function () {
+      (function () {
+        var sample = test.getSample(0);
+        should.not.exist(sample)
+      }).should.throw('No sampels have been collected');
+    }
+  );
 
   it('should contain delete method', function () {
     should.exist(test.delete);
@@ -88,5 +98,32 @@ describe('profiles', function () {
       test.samplesCount.should.be.above(0);
       next();
     }, 100);
+  });
+
+  it('should have a getSample method for the top root', function () {
+    should.exist(test.getSample);
+    test.getSample.should.be.type('function');
+  });
+
+  it('should getSample correctly', function () {
+    var sample = test.getSample(1);
+    sample.should.be.type('object')
+    validateNode(sample)
+
+    var sample2 = test.getSample(0);
+    sample2.should.be.type('object')
+    validateNode(sample2)
+  });
+
+  it('should not sigfault if you request a sample out of range', function () {
+    ;(function () {
+      var sample3 = test.getSample(-1);
+      should.not.exist(sample3);
+    }).should.throw('Index is not in range of samplesCount')
+
+    ;(function () {
+      var sample4 = test.getSample(test.samplesCount);
+      should.not.exist(sample4);
+    }).should.throw('Index is not in range of samplesCount')
   });
 });

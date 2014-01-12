@@ -28,6 +28,7 @@ namespace nodex {
     o->SetAccessor(String::New("bailoutReason"), ProfileNode::GetBailoutReason);
     o->SetAccessor(String::New("lineNumber"), ProfileNode::GetLineNumber);
     o->SetAccessor(String::New("callUid"), ProfileNode::GetCallUid);
+    o->SetAccessor(String::New("id"), ProfileNode::GetNodeId);
     o->SetAccessor(String::New("childrenCount"), ProfileNode::GetChildrenCount);
     o->SetAccessor(String::New("hitCount"), ProfileNode::GetHitCount);
     o->Set(String::New("getChild"), FunctionTemplate::New(ProfileNode::GetChild));
@@ -75,6 +76,14 @@ namespace nodex {
     info.GetReturnValue().Set(uid);
   }
 
+  void ProfileNode::GetNodeId (Local<String> property, const PropertyCallbackInfo<Value>& info) {
+    HandleScope scope(info.GetIsolate());
+    Local<Object> self = info.Holder();
+    void* ptr = self->GetAlignedPointerFromInternalField(0);
+    uint32_t uid = static_cast<CpuProfileNode*>(ptr)->GetNodeId();
+    info.GetReturnValue().Set(uid);
+  }
+
   void ProfileNode::GetChildrenCount (Local<String> property, const PropertyCallbackInfo<Value>& info) {
     HandleScope scope(info.GetIsolate());
     Local<Object> self = info.Holder();
@@ -112,7 +121,7 @@ namespace nodex {
     if (node_template_.IsEmpty()) {
       ProfileNode::Initialize(isolate);
     }
-    
+
     if(!node) {
       return Undefined();
     }

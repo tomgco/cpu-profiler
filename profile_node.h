@@ -15,6 +15,7 @@ class ProfileNode {
    static void GetBailoutReason(v8::Local<v8::String> property, const v8::PropertyCallbackInfo<v8::Value>& info);
    static void GetLineNumber(v8::Local<v8::String> property, const v8::PropertyCallbackInfo<v8::Value>& info);
    static void GetCallUid(v8::Local<v8::String> property, const v8::PropertyCallbackInfo<v8::Value>& info);
+   static void GetNodeId(v8::Local<v8::String> property, const v8::PropertyCallbackInfo<v8::Value>& info);
    static void GetChildrenCount(v8::Local<v8::String> property, const v8::PropertyCallbackInfo<v8::Value>& info);
    static void GetHitCount(v8::Local<v8::String> property, const v8::PropertyCallbackInfo<v8::Value>& info);
    static void GetChild(const v8::FunctionCallbackInfo<v8::Value>& args);
