@@ -1,9 +1,9 @@
 {
-  "name": "strong-cpu-profiler",
-  "version": "0.1.0",
+  "name": "cpu-profiler",
+  "version": "1.0.0",
   "description": "Node bindings for the v8 cpu profiler",
-  "homepage": "http://github.com/strongloop/strong-cpu-profiler",
-  "author": "Stephen Belanger <stephen@strongloop.com>",
+  "homepage": "http://github.com/tomgco/cpu-profiler",
+  "author": "Tom Gallacher <tomgallacher23@gmail.com>",
   "keywords": [ "profiler", "inspector", "cpu" ],
   "engines": { "node": ">=0.8" },
   "devDependencies": {
