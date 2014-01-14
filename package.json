@@ -1,6 +1,6 @@
 {
   "name": "cpu-profiler",
-  "version": "2.1.0",
+  "version": "2.1.1",
   "description": "Node bindings for the v8 cpu profiler",
   "homepage": "http://github.com/tomgco/strong-cpu-profiler",
   "author": "Tom Gallacher <tomgallacher23@gmail.com>",
