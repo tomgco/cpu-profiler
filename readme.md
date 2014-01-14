@@ -2,6 +2,10 @@
 
 Provides bindings for the v8 profiler in node.js
 
+This branch is upto date with node v0.11 and is not compatible with v0.10.
+For a 0.10v compatible checkout the [release/1.0.0](https://github.com/tomgco/cpu-profiler/tree/release/1.0.0)
+branch.
+
 ## Installation
 
     npm install strong-cpu-profiler
