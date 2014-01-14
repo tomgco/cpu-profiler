@@ -1,31 +1,27 @@
-
-
 #ifndef NODE_PROFILE_NODE_
 #define NODE_PROFILE_NODE_
 
-#include <v8-profiler.h>
-
-using namespace v8;
+#include "v8-profiler.h"
 
 namespace nodex {
 
 class ProfileNode {
  public:
-   static Handle<Value> New(const CpuProfileNode* node);
+   static v8::Handle<v8::Value> New(v8::Isolate* isolate, const v8::CpuProfileNode* node);
 
  private:
-   static Handle<Value> GetFunctionName(Local<String> property, const AccessorInfo& info);
-   static Handle<Value> GetScriptName(Local<String> property, const AccessorInfo& info);
-   static Handle<Value> GetLineNumber(Local<String> property, const AccessorInfo& info);
-   static Handle<Value> GetTotalTime(Local<String> property, const AccessorInfo& info);
-   static Handle<Value> GetSelfTime(Local<String> property, const AccessorInfo& info);
-   static Handle<Value> GetTotalSamplesCount(Local<String> property, const AccessorInfo& info);
-   static Handle<Value> GetSelfSamplesCount(Local<String> property, const AccessorInfo& info);
-   static Handle<Value> GetCallUid(Local<String> property, const AccessorInfo& info);
-   static Handle<Value> GetChildrenCount(Local<String> property, const AccessorInfo& info);
-   static Handle<Value> GetChild(const Arguments& args);
-   static void Initialize();
-   static Persistent<ObjectTemplate> node_template_;
+   static void GetFunctionName(v8::Local<v8::String> property, const v8::PropertyCallbackInfo<v8::Value>& info);
+   static void GetScriptName(v8::Local<v8::String> property, const v8::PropertyCallbackInfo<v8::Value>& info);
+   static void GetBailoutReason(v8::Local<v8::String> property, const v8::PropertyCallbackInfo<v8::Value>& info);
+   static void GetLineNumber(v8::Local<v8::String> property, const v8::PropertyCallbackInfo<v8::Value>& info);
+   static void GetCallUid(v8::Local<v8::String> property, const v8::PropertyCallbackInfo<v8::Value>& info);
+   static void GetNodeId(v8::Local<v8::String> property, const v8::PropertyCallbackInfo<v8::Value>& info);
+   static void GetChildrenCount(v8::Local<v8::String> property, const v8::PropertyCallbackInfo<v8::Value>& info);
+   static void GetHitCount(v8::Local<v8::String> property, const v8::PropertyCallbackInfo<v8::Value>& info);
+   static void GetScriptId(v8::Local<v8::String> property, const v8::PropertyCallbackInfo<v8::Value>& info);
+   static void GetChild(const v8::FunctionCallbackInfo<v8::Value>& args);
+   static void Initialize(v8::Isolate* isolate);
+   static v8::Persistent<v8::ObjectTemplate> node_template_;
 };
 
 }

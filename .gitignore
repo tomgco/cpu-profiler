@@ -1,4 +1,5 @@
 build
+builderror.log
 lib-cov
 node_modules
 .lock-wscript
