@@ -30,7 +30,7 @@ is one available.
 
 Or with capturing samples when profiling
 
-    profiler.startProfiling([name])                   // start cpu profiling
+    profiler.startProfiling([name], true)                   // start cpu profiling
     var cpuProfile = profiler.stopProfiling([name])   // stop cpu profiling
 
 # Thanks
