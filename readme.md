@@ -1,4 +1,4 @@
-# strong-cpu-profiler
+# cpu-profiler
 
 Provides bindings for the v8 profiler in node.js
 
@@ -11,7 +11,7 @@ branch.
 
 ## Installation
 
-    npm install strong-cpu-profiler
+    npm install cpu-profiler
 
 We now include node v0.10 binaries for a number of platforms.  During the
 install, node-gyp will attempt to build the module for your platform.  If it
@@ -21,7 +21,7 @@ is one available.
 
 ## Usage
 
-    var profiler = require('strong-cpu-profiler');
+    var profiler = require('cpu-profiler');
 
 ## API
 
